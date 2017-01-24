@@ -15,42 +15,42 @@ app.get('/', function(req, res) {
 });
 
 // Update the gis data
-app.post('/update', function(req, res) {
-	var qs = require("querystring");
-	var http = require("http");
+app.get('/update', function(req, res) {
+    var qs = require("querystring");
+    var http = require("http");
 
-	var options = {
-			"method": "POST",
-			"hostname": "services6.arcgis.com",
-			"port": null,
-			"path": "/3R3y1KXaPJ9BFnsU/arcgis/rest/services/ServiceOrdersUpdate6/FeatureServer/0/updateFeatures",
-			"headers": {
-					"accept": "application/json",
-					"content-type": "application/x-www-form-urlencoded",
-					"cache-control": "no-cache",
-					"postman-token": "98382832-97e4-11da-590a-a4450b266223"
-			}
-	};
+    var options = {
+        "method": "POST",
+        "hostname": "services6.arcgis.com",
+        "port": null,
+        "path": "/3R3y1KXaPJ9BFnsU/arcgis/rest/services/ServiceOrdersUpdate6/FeatureServer/0/updateFeatures",
+        "headers": {
+            "accept": "application/json",
+            "content-type": "application/x-www-form-urlencoded",
+            "cache-control": "no-cache",
+            "postman-token": "98382832-97e4-11da-590a-a4450b266223"
+        }
+    };
 
-	var req = http.request(options, function(res) {
-			var chunks = [];
+    var req = http.request(options, function(res) {
+        var chunks = [];
 
-			res.on("data", function(chunk) {
-					chunks.push(chunk);
-			});
+        res.on("data", function(chunk) {
+            chunks.push(chunk);
+        });
 
-			res.on("end", function() {
-					var body = Buffer.concat(chunks);
-					console.log(body.toString());
-			});
-	});
+        res.on("end", function() {
+            var body = Buffer.concat(chunks);
+            console.log(body.toString());
+        });
+    });
 
-	req.write(qs.stringify({
-			features: '[{ "attributes": { "OBJECTID": 145, "FID": 5258, "LOG_DATE": null, "LOCAT_DESC": "asfbhjasdbhsafbsad", "REMARKS": " ", "LEAK_STATUS": "rep" }, "geometry": { "x": -76.7386527749252, "y": 17.9932317466246 } }]',
-			token: 'XnsPROAxDN6v3tlvGvwvrA_YK8w3EU1Ga-36pQgrNMv9IjH8eS9BmSPL9W2xYalk27IuULwlMKkT3Vx_8KLtauu4f8krs7BcRZJsaVaN48OefBgs93__fk8yGZgcP5LBkLzyfKOSSNNYKo4FwpMmkSA_2Tq3Iy9HSxEzPvqXaPREfCJw7L_NBhBWdpVQR37J',
-			f: 'json'
-	}));
-	req.end();
+    req.write(qs.stringify({
+        features: '[{ "attributes": { "OBJECTID": 145, "FID": 5258, "LOG_DATE": null, "LOCAT_DESC": "This is just a test", "REMARKS": " ", "LEAK_STATUS": "rep" }, "geometry": { "x": -76.7386527749252, "y": 17.9932317466246 } }]',
+        token: 'XnsPROAxDN6v3tlvGvwvrA_YK8w3EU1Ga-36pQgrNMv9IjH8eS9BmSPL9W2xYalk27IuULwlMKkT3Vx_8KLtauu4f8krs7BcRZJsaVaN48OefBgs93__fk8yGZgcP5LBkLzyfKOSSNNYKo4FwpMmkSA_2Tq3Iy9HSxEzPvqXaPREfCJw7L_NBhBWdpVQR37J',
+        f: 'json'
+    }));
+    req.end();
 });
 
 // GET /todos/:id
