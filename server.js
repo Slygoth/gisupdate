@@ -15,7 +15,7 @@ app.get('/', function(req, res) {
 });
 
 // Update the gis data
-app.get('/update', function(req, res) {
+app.post('/update', function(req, res) {
 	var qs = require("querystring");
 	var http = require("http");
 
