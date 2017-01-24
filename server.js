@@ -14,28 +14,43 @@ app.get('/', function(req, res) {
 	res.send('Todo API Root');
 });
 
-// GET /todos?completed=false&q=work
-app.get('/todos', function(req, res) {
-	var query = req.query;
-	var where = {};
+// Update the gis data
+app.get('/update', function(req, res) {
+	var qs = require("querystring");
+	var http = require("http");
 
-	if (query.hasOwnProperty('completed') && query.completed === 'true') {
-		where.completed = true;
-	} else if (query.hasOwnProperty('completed') && query.completed === 'false') {
-		where.completed = false;
-	}
+	var options = {
+			"method": "POST",
+			"hostname": "services6.arcgis.com",
+			"port": null,
+			"path": "/3R3y1KXaPJ9BFnsU/arcgis/rest/services/ServiceOrdersUpdate6/FeatureServer/0/updateFeatures",
+			"headers": {
+					"accept": "application/json",
+					"content-type": "application/x-www-form-urlencoded",
+					"cache-control": "no-cache",
+					"postman-token": "98382832-97e4-11da-590a-a4450b266223"
+			}
+	};
 
-	if (query.hasOwnProperty('q') && query.q.length > 0) {
-		where.description = {
-			$like: '%' + query.q + '%'
-		};
-	}
+	var req = http.request(options, function(res) {
+			var chunks = [];
 
-	db.todo.findAll({where: where}).then(function (todos) {
-		res.json(todos);
-	}, function (e) {
-		res.status(500).send();
+			res.on("data", function(chunk) {
+					chunks.push(chunk);
+			});
+
+			res.on("end", function() {
+					var body = Buffer.concat(chunks);
+					console.log(body.toString());
+			});
 	});
+
+	req.write(qs.stringify({
+			features: '[{ "attributes": { "OBJECTID": 145, "FID": 5258, "LOG_DATE": null, "LOCAT_DESC": "asfbhjasdbhsafbsad", "REMARKS": " ", "LEAK_STATUS": "rep" }, "geometry": { "x": -76.7386527749252, "y": 17.9932317466246 } }]',
+			token: 'XnsPROAxDN6v3tlvGvwvrA_YK8w3EU1Ga-36pQgrNMv9IjH8eS9BmSPL9W2xYalk27IuULwlMKkT3Vx_8KLtauu4f8krs7BcRZJsaVaN48OefBgs93__fk8yGZgcP5LBkLzyfKOSSNNYKo4FwpMmkSA_2Tq3Iy9HSxEzPvqXaPREfCJw7L_NBhBWdpVQR37J',
+			f: 'json'
+	}));
+	req.end();
 });
 
 // GET /todos/:id
