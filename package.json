@@ -11,10 +11,16 @@
   "dependencies": {
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
+    "google-auth-library": "^0.10.0",
+    "googleapis": "^16.1.0",
+    "https": "^1.0.0",
+    "node-persist": "0.0.6",
     "pg": "^4.5.6",
     "pg-hstore": "^2.3.2",
+    "request": "^2.79.0",
     "sequelize": "^3.5.1",
     "sqlite3": "^3.0.10",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "yargs": "^3.15.0"
   }
 }
