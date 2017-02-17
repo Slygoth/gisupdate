@@ -166,7 +166,8 @@ function initialize() {
     });
 }
 function dispatch(object,code,address) {
-  new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address" + address;
+  new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address=" + address;
+  // new Image().src = "https://local/pronto?object=" + object + "&code=" + code + "&address=" + address;
 }
 
 function myFunction(address) {
