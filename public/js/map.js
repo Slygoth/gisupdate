@@ -32,7 +32,7 @@ function initialize() {
                             '</div>' +
                             '<div class="iw-bottom-gradient"></div>' +
                             '<button type="buttton" onclick="myFunction( \'' + name[0] + '\' )">Open Maps</button>' +
-                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\')">Dispatch</button>' +
+                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\')">Dispatch</button>' +
                             '</div>';
                         var infowindow = new google.maps.InfoWindow({
                             content: contentString
@@ -78,7 +78,7 @@ function initialize() {
                             '</div>' +
                             '<div class="iw-bottom-gradient"></div>' +
                             '<button type="buttton" onclick="myFunction( \'' + name[0] + '\' )">Open Maps</button>' +
-                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\')">Dispatch</button>' +
+                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\')">Dispatch</button>' +
                             '</div>';
 
                         var infowindow = new google.maps.InfoWindow({
@@ -125,7 +125,7 @@ function initialize() {
                             '</div>' +
                             '<div class="iw-bottom-gradient"></div>' +
                             '<button type="buttton" onclick="myFunction( \'' + name[0] + '\' )">Open Maps</button>' +
-                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\')">Dispatch</button>' +
+                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\')">Dispatch</button>' +
                             '</div>';
 
                         var infowindow = new google.maps.InfoWindow({
@@ -165,8 +165,8 @@ function initialize() {
         });
     });
 }
-function dispatch(object,code) {
-  new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code;
+function dispatch(object,code,address) {
+  new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address" + address;
 }
 
 function myFunction(address) {
