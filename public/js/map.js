@@ -13,7 +13,7 @@ function initialize() {
         mapTypeId: 'roadmap'
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-    $.getJSON('https://services6.arcgis.com/3R3y1KXaPJ9BFnsU/arcgis/rest/services/ServiceOrdersUpdate8/FeatureServer/0/query?where=objectid%3E0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=4326&returnIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnDistinctValues=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&quantizationParameters=&sqlFormat=none&f=pgeojson&token=KCGXGNiEtNE6BQfPM0Zem9J3jN78oNLbIBFmQ09LsWtpl1ZV3__zs7djJulkOz-EnPZC7eqyJgCNqeEQ-Xoixu3mjq3lofUab2BwD0n76G0pQJgXiTKmQSTQk8MaPeNNp71Ght_2M19tAUU7FAIUbiCHODJrLg-jfaHLReEM5KUfxgaY1j2MdwNc905fXZ6q', function(data) {
+    $.getJSON('http://services6.arcgis.com/3R3y1KXaPJ9BFnsU/arcgis/rest/services/ServiceOrdersUpdate8/FeatureServer/0/query?where=objectid%3E0&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=4326&returnIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnDistinctValues=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&quantizationParameters=&sqlFormat=none&f=pgeojson&token=WEEykXuwdlzWfymaKzf-IUUEGUQpkts0LqF1aP4YSpMbtT_iRjvTZ4ajluPd-lggTgwhT-rQbomkIZ6zauFIxh2Dl0iMoiHgSWq8rpijGX3Kcehe1hxN33D_HT5U5AhQs7mg0rQKTtAstUdg8hDpVrO9ZLOvjJijR7GITIyd0ZLBTZ2lgjyTnkcA2aWlURIQ', function(data) {
         $.each(data.features, function(i, value) {
             if (JSON.stringify(data.features[i].properties.LEAK_STATUS) === '"exi"') {
                 if (data.features[i].properties.Assigned_To !== null) {
@@ -166,7 +166,8 @@ function initialize() {
     });
 }
 function dispatch(object,code,address) {
-  new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address=" + address;
+  // new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address=" + address;
+  new Image().src = "http://localhost:3000/pronto?object=" + object + "&code=" + code + "&address=" + address;
 }
 
 function myFunction(address) {
