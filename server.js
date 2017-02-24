@@ -46,19 +46,10 @@ app.get('/pronto', function(req, res) {
     req.write('<dispatch>\n<formId>144582101</formId>\n<userId>132951107</userId>\n<data>\n  <answer label=\"address\">' + address + '</answer>\n <answer label=\"code\">' + code + '</answer>\n  <answer label=\"object\">' + object + '</answer>\n</data>\n</dispatch>');
     req.end();
 });
-
-app.get('/parse', function(req, res) {
-    var fs = require('fs');
-    var filePaths = [];
-    const downloadFolder = './download/';
-    fs.readdir(downloadFolder, (err, files) => {
-        files.forEach(file => {
-            filePaths.push("download/" + file);
-        });
-        finish(filePaths);
-    })
-});
 app.get('/download', function(req, res) {
+  var minutes = 1, the_interval = minutes * 10000;
+  setInterval(function() {
+    console.log("I am doing my 5 minutes check");
     var fs = require('fs');
     var path = require('path');
     var readline = require('readline');
@@ -81,7 +72,6 @@ app.get('/download', function(req, res) {
         // Drive API.
         authorize(JSON.parse(content), listFiles);
     });
-
     /**
    * Create an OAuth2 client with the given credentials, and then execute the
    * given callback function.
@@ -184,9 +174,35 @@ app.get('/download', function(req, res) {
             }
         });
     }
-
+    setTimeout(function(req,res) {
+      var fs = require('fs');
+      var path = require('path');
+      var filePaths = [];
+      const downloadFolder = './download/';
+      fs.readdir(downloadFolder, (err, files) => {
+          files.forEach(file => {
+              filePaths.push("download/" + file);
+          });
+          finish(filePaths);
+      })
+    }, 2000);
+  }, the_interval);
 });
-
+app.get('/download', function(req, res, next) {
+  setTimeout(function() {
+    var fs = require('fs');
+    var path = require('path');
+    var filePaths = [];
+    const downloadFolder = './download/';
+    fs.readdir(downloadFolder, (err, files) => {
+        files.forEach(file => {
+            filePaths.push("download/" + file);
+        });
+        finish(filePaths);
+    })
+    res.sendFile(path.join(__dirname + '/public/index.html'));
+  }, 2000);
+})
 //Parsing pronto data
 function finish(filePaths) {
     var fs = require('fs');
