@@ -1,17 +1,22 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <title>DataMap</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-    <script type="text/javascript" src="js/map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBe37_pIn8vp1vgLxABEgWgPmP46a9rn90"></script>
+    <meta charset="utf-8">
+    <link href="./css/style.css" type="text/css" rel="stylesheet" media="all">
+    <title>MIYA API</title>
 </head>
 
-<body onload="initialize()">
-    <form id="form1" runat="server">
-        <div id="map_canvas" style="width: 100%; height: 100%"></div>
-    </form>
+<body>
+    <div class="container">
+        <div class="words">
+            <p>Welcome to the API below are some usefull links</p>
+        </div>
+        <div class="alignB padding">
+            <button class="button button1" type="button" name="map" onclick="location.href='https://gisupdate.herokuapp.com/map.html'">Map</button>
+            <button class="button button1" type="button" name="download" onclick="location.href='https://gisupdate.herokuapp.com/download'">Download</button>
+            <button class="button button1" type="button" name="dispatch" onclick="location.href='https://gisupdate.herokuapp.com/dispatch'">Dispatch</button>
+        </div>
+    </div>
 </body>
-
 </html>

@@ -120,7 +120,7 @@ function listFiles(auth) {
 			for (var i = 0; i < files.length; i++) {
 				var file = files[i];
 				var fileId = file.id;
-				console.log('%s', file.name);
+				console.log('%s (%s)', file.name, file.id);
 
         file = fs.createWriteStream(path.join("download", file.name));
 

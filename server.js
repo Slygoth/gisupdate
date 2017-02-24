@@ -2,14 +2,16 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var _ = require('underscore');
 var db = require('./db.js');
-
+var filearray = [];
 var app = express();
 var PORT = process.env.PORT || 3000
 
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-    res.send('MIYA ROOT API');
+    var path = require('path');
+    // res.sendFile('http://localhost:3000/index.html');
+    res.sendFile('public/index.html', { root: __dirname });
 })
 
 app.use(express.static(__dirname + '/public'));
@@ -46,6 +48,7 @@ app.get('/pronto', function(req, res) {
     req.write('<dispatch>\n<formId>144582101</formId>\n<userId>132951107</userId>\n<data>\n  <answer label=\"address\">' + address + '</answer>\n <answer label=\"code\">' + code + '</answer>\n  <answer label=\"object\">' + object + '</answer>\n</data>\n</dispatch>');
     req.end();
 });
+
 app.get('/download', function(req, res) {
   var minutes = 1, the_interval = minutes * 10000;
   setInterval(function() {
@@ -149,7 +152,7 @@ app.get('/download', function(req, res) {
         var service = google.drive('v3');
         service.files.list({
             auth: auth,
-            pageSize: 10,
+            pageSize: 900,
             fields: "nextPageToken, files(id, name)"
         }, function(err, response) {
             if (err) {
@@ -164,101 +167,76 @@ app.get('/download', function(req, res) {
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
                     var fileId = file.id;
-                    console.log('%s', file.name);
-
-                    file = fs.createWriteStream(path.join("download", file.name));
-
-                    // Download file
-                    service.files.get({auth: auth, fileId: fileId, alt: "media"}).pipe(file);
+                    console.log('%s (%s)', file.name, file.id);
+                    filearray.push("https://drive.google.com/uc?export=view&id=" + file.id);
                 }
             }
         });
     }
     setTimeout(function(req,res) {
-      var fs = require('fs');
-      var path = require('path');
-      var filePaths = [];
-      const downloadFolder = './download/';
-      fs.readdir(downloadFolder, (err, files) => {
-          files.forEach(file => {
-              filePaths.push("download/" + file);
-          });
-          finish(filePaths);
-      })
+          finish(filearray);
     }, 2000);
   }, the_interval);
 });
-app.get('/download', function(req, res, next) {
-  setTimeout(function() {
-    var fs = require('fs');
-    var path = require('path');
-    var filePaths = [];
-    const downloadFolder = './download/';
-    fs.readdir(downloadFolder, (err, files) => {
-        files.forEach(file => {
-            filePaths.push("download/" + file);
-        });
-        finish(filePaths);
-    })
-    res.sendFile(path.join(__dirname + '/public/index.html'));
-  }, 2000);
-})
+
 //Parsing pronto data
-function finish(filePaths) {
+function finish(filearray) {
     var fs = require('fs');
     var obj;
-    filePaths.forEach(function(file) {
-        fs.readFile(file, function(err, data) {
-            var jsonGis = new Array();
-            if (err)
-                throw err;
-            obj = JSON.parse(data);
-            jsonGis.push('"attributes":{');
-            jsonGis.push('"OBJECTID":' + obj.pages[0].answers[2].values[0] + ',');
-            jsonGis.push('"LEAK_STATUS"');
-            if (obj.pages[1].answers[7].values[0] == "Duplicate") {
-                jsonGis.push('"other"');
-            }
-            if (obj.pages[1].answers[7].values[0] == "No further action (customer side leak)") {
-                jsonGis.push('"other"');
-            }
-            if (obj.pages[1].answers[7].values[0] == "No further action (Hydrant valve leak)") {
-                jsonGis.push('"other"');
-            }
-            if (obj.pages[1].answers[7].values[0] == "Sewerage") {
-                jsonGis.push('"other"');
-            }
-            if (obj.pages[1].answers[7].values[0] == "Leak found") {
-                jsonGis.push('"rep"');
-            }
-            if (obj.pages[1].answers[7].values[0] == "Found repaired") {
-                jsonGis.push('"rep"');
-            }
-            jsonGis.push('"PIPE_DIAM"');
-            if (obj.pages[5].answers[4].values[0] == "undefined") {
-                jsonGis.push('"' + obj.pages[6].answers[3].values[0] + '"');
-            } else {
-                jsonGis.push('"' + obj.pages[5].answers[4].values[0] + '"');
-            }
-            jsonGis.push('"PIPE_MATERIAL"');
-            if (obj.pages[5].answers[3].values[0] == "undefined") {
-                jsonGis.push('"' + obj.pages[6].answers[4].values[0] + '"');
-            } else {
-                jsonGis.push('"' + obj.pages[5].answers[3].values[0] + '"');
-            }
-            jsonGis.push('"REPAIRED_BY"');
-            jsonGis.push('"' + obj.pages[1].answers[2].values[0] + '"');
-            jsonGis.push('"COMPLETED_DATE"');
-            jsonGis.push('"' + obj.pages[1].answers[0].values[0] + '"');
-            jsonGis.push('"CODE"');
-            jsonGis.push('"16MNCSD5258"');
-            jsonGis.push('"geometry":{');
-            jsonGis.push('"x":' + obj.pages[1].answers[4].values[0].coordinates.latitude + ',');
-            jsonGis.push('"y":' + obj.pages[1].answers[4].values[0].coordinates.longitude);
-            var str = "[{ " + jsonGis[0] + jsonGis[1] + jsonGis[2] + ": " + jsonGis[3] + "," + jsonGis[4] + ": " + jsonGis[5] + "," + jsonGis[6] + ": " + jsonGis[7] + "," + jsonGis[8] + ": " + jsonGis[9] + "," + jsonGis[10] + ": " + jsonGis[11] + "," + jsonGis[12] + ": " + jsonGis[13] + " }," + jsonGis[14] + " " + jsonGis[15] + " " + jsonGis[16] + "}}]";
-            console.log(str);
-            gisupdate(str);
-        });
+    filearray.forEach(function(file) {
+      var request = require('request');
+      var url = file;
+      request({
+        url: url,
+        json: true
+      }, function (error, response, obj) {
+        var jsonGis = new Array();
+        jsonGis.push('"attributes":{');
+        jsonGis.push('"OBJECTID":' + obj.pages[0].answers[2].values[0] + ',');
+        jsonGis.push('"LEAK_STATUS"');
+        if (obj.pages[1].answers[7].values[0] == "Duplicate") {
+            jsonGis.push('"other"');
+        }
+        if (obj.pages[1].answers[7].values[0] == "No further action (customer side leak)") {
+            jsonGis.push('"other"');
+        }
+        if (obj.pages[1].answers[7].values[0] == "No further action (Hydrant valve leak)") {
+            jsonGis.push('"other"');
+        }
+        if (obj.pages[1].answers[7].values[0] == "Sewerage") {
+            jsonGis.push('"other"');
+        }
+        if (obj.pages[1].answers[7].values[0] == "Leak found") {
+            jsonGis.push('"rep"');
+        }
+        if (obj.pages[1].answers[7].values[0] == "Found repaired") {
+            jsonGis.push('"rep"');
+        }
+        jsonGis.push('"PIPE_DIAM"');
+        if (obj.pages[5].answers[4].values[0] == "undefined") {
+            jsonGis.push('"' + obj.pages[6].answers[3].values[0] + '"');
+        } else {
+            jsonGis.push('"' + obj.pages[5].answers[4].values[0] + '"');
+        }
+        jsonGis.push('"PIPE_MATERIAL"');
+        if (obj.pages[5].answers[3].values[0] == "undefined") {
+            jsonGis.push('"' + obj.pages[6].answers[4].values[0] + '"');
+        } else {
+            jsonGis.push('"' + obj.pages[5].answers[3].values[0] + '"');
+        }
+        jsonGis.push('"REPAIRED_BY"');
+        jsonGis.push('"' + obj.pages[1].answers[2].values[0] + '"');
+        jsonGis.push('"COMPLETED_DATE"');
+        jsonGis.push('"' + obj.pages[1].answers[0].values[0] + '"');
+        jsonGis.push('"CODE"');
+        jsonGis.push('"16MNCSD5258"');
+        jsonGis.push('"geometry":{');
+        jsonGis.push('"x":' + obj.pages[1].answers[4].values[0].coordinates.latitude + ',');
+        jsonGis.push('"y":' + obj.pages[1].answers[4].values[0].coordinates.longitude);
+        var str = "[{ " + jsonGis[0] + jsonGis[1] + jsonGis[2] + ": " + jsonGis[3] + "," + jsonGis[4] + ": " + jsonGis[5] + "," + jsonGis[6] + ": " + jsonGis[7] + "," + jsonGis[8] + ": " + jsonGis[9] + "," + jsonGis[10] + ": " + jsonGis[11] + "," + jsonGis[12] + ": " + jsonGis[13] + " }," + jsonGis[14] + " " + jsonGis[15] + " " + jsonGis[16] + "}}]";
+        console.log(str);
+        gisupdate(str);
+      })
     })
 }
 //Updating GIS
