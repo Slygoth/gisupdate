@@ -7,6 +7,7 @@ function initialize() {
     var iconmb = ["icons/mbred.png", "icons/mbyellow.png", "icons/mbblue.png"];
     var iconrr = ["icons/rrred.png", "icons/rryellow.png", "icons/rrblue.png"];
     var icontw = ["icons/twred.png", "icons/twyellow.png", "icons/twblue.png"];
+
     var mapOptions = {
         center: new google.maps.LatLng(18.0234382, -76.7841638),
         zoom: 14,
@@ -19,7 +20,6 @@ function initialize() {
                 if (data.features[i].properties.Assigned_To !== null) {
                     if (JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"VLVL"' || JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"BPIP"') {
                         name.push(data.features[i].properties.LOCAT_DESC, i);
-                        // console.log(name);
                         var contentString = '<div id="iw-container">' +
                             '<div class="iw-content">' +
                             '<div class="iw-subTitle">Location</div>' +
@@ -31,8 +31,8 @@ function initialize() {
                             data.features[i].properties.CODE +
                             '</div>' +
                             '<div class="iw-bottom-gradient"></div>' +
-                            '<button type="buttton" onclick="myFunction( \'' + name[0] + '\' )">Open Maps</button>' +
-                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\')">Dispatch</button>' +
+                            '<button type="buttton" onclick="myFunction( \'' + data.features[i].properties.LOCAT_DESC + '\' )">Open Maps</button>' +
+                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\', \'' + data.features[i].properties.Assigned_To + '\')">Dispatch</button>' +
                             '</div>';
                         var infowindow = new google.maps.InfoWindow({
                             content: contentString
@@ -78,7 +78,7 @@ function initialize() {
                             '</div>' +
                             '<div class="iw-bottom-gradient"></div>' +
                             '<button type="buttton" onclick="myFunction( \'' + name[0] + '\' )">Open Maps</button>' +
-                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\')">Dispatch</button>' +
+                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\', \'' + data.features[i].properties.Assigned_To + '\')">Dispatch</button>' +
                             '</div>';
 
                         var infowindow = new google.maps.InfoWindow({
@@ -125,7 +125,7 @@ function initialize() {
                             '</div>' +
                             '<div class="iw-bottom-gradient"></div>' +
                             '<button type="buttton" onclick="myFunction( \'' + name[0] + '\' )">Open Maps</button>' +
-                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\')">Dispatch</button>' +
+                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\', \'' + data.features[i].properties.Assigned_To + '\')">Dispatch</button>' +
                             '</div>';
 
                         var infowindow = new google.maps.InfoWindow({
@@ -165,14 +165,27 @@ function initialize() {
         });
     });
 }
-function dispatch(object,code,address) {
-  new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address=" + address;
-  // new Image().src = "http://localhost:3000/pronto?object=" + object + "&code=" + code + "&address=" + address;
+function dispatch(object,code,address,user) {
+  var userid;
+  if (user == "CM") {
+    userid = 133040042
+  } else if (user == "RR") {
+    userid = 133042082
+  } else if (user == "FS") {
+    userid = 132984131
+  } else if (user == "MB") {
+    userid = 133040041
+  } else if (user == "DW") {
+    userid = 133040038
+  } else if (user == "TW") {
+    // userid = 133042079
+    userid = 132951107
+  }
+  new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
+  // new Image().src = "http://localhost:3000/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
 }
 
 function myFunction(address) {
-  console.log(address);
-  console.log("testing");
-    var win = window.open('https://maps.google.com/?daddr=' + address + '&saddr=current%20location');
-    win.focus();
+    var win = window.open('https://maps.google.com/?daddr=' + address + ',Kingston,Jamaica&saddr=current%20location');
+    // win.focus();
 }

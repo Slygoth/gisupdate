@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
     var path = require('path');
-    // res.sendFile('http://localhost:3000/index.html');
+
     res.sendFile('public/index.html', { root: __dirname });
 })
 
@@ -20,6 +20,7 @@ app.get('/pronto', function(req, res) {
     var address = req.param('address');
     var object = req.param('object');
     var code = req.param('code');
+    var userid = req.param('userid');
     var http = require("https");
     var options = {
         "method": "POST",
@@ -45,7 +46,8 @@ app.get('/pronto', function(req, res) {
             console.log(body.toString());
         });
     });
-    req.write('<dispatch>\n<formId>144582101</formId>\n<userId>132951107</userId>\n<data>\n  <answer label=\"address\">' + address + '</answer>\n <answer label=\"code\">' + code + '</answer>\n  <answer label=\"object\">' + object + '</answer>\n</data>\n</dispatch>');
+    // req.write('<dispatch>\n<formId>144582101</formId>\n<userId>132951107</userId>\n<data>\n  <answer label=\"address\">' + address + '</answer>\n <answer label=\"code\">' + code + '</answer>\n  <answer label=\"object\">' + object + '</answer>\n</data>\n</dispatch>');
+    req.write('<dispatch>\n<formId>144582101</formId>\n<userId>'+ userid +'</userId>\n<data>\n  <answer label=\"address\">' + address + '</answer>\n <answer label=\"code\">' + code + '</answer>\n  <answer label=\"object\">' + object + '</answer>\n</data>\n</dispatch>');
     req.end();
 });
 
