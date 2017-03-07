@@ -10,8 +10,7 @@ app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
     var path = require('path');
-
-    res.sendFile('public/index.html', { root: __dirname });
+    res.sendFile('public/map.html', { root: __dirname });
 })
 
 app.use(express.static(__dirname + '/public'));

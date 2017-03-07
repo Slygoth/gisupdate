@@ -21,22 +21,9 @@ function initialize() {
                     if (JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"VLVL"' || JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"BPIP"') {
                         name.push(data.features[i].properties.LOCAT_DESC, i);
                         var contentString = '<div id="iw-container">' +
-                            '<div class="iw-content">' +
-                            '<div class="iw-subTitle">Location</div>' +
-                            data.features[i].properties.LOCAT_DESC +
-                            '<div class="iw-subTitle">Object id</div>' +
-                            data.features[i].properties.OBJECTID +
-                            '</div>' +
-                            '<div class="iw-subTitle">Code</div>' +
-                            data.features[i].properties.CODE +
-                            '</div>' +
-                            '<div class="iw-bottom-gradient"></div>' +
-                            '<button type="buttton" onclick="myFunction( \'' + data.features[i].properties.LOCAT_DESC + '\' )">Open Maps</button>' +
-                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\', \'' + data.features[i].properties.Assigned_To + '\')">Dispatch</button>' +
-                            '</div>';
-                        var infowindow = new google.maps.InfoWindow({
-                            content: contentString
-                        });
+                        '<div class="iw-content">' +
+                        '<div class="iw-subTitle">Location</div>' + data.features[i].properties.LOCAT_DESC + '<div class="iw-subTitle">Object id</div>' + data.features[i].properties.OBJECTID + '</div>' + '<div class="iw-subTitle">Code</div>' + data.features[i].properties.CODE + '</div>' + '<div class="iw-bottom-gradient"></div>' + '<button type="buttton" onclick="myFunction( \'' + data.features[i].properties.LOCAT_DESC + '\' )">Open Maps</button>' + '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\', \'' + data.features[i].properties.Assigned_To + '\')">Dispatch</button>' + '</div>';
+                        var infowindow = new google.maps.InfoWindow({content: contentString});
                         var useIcon;
                         if (JSON.stringify(data.features[i].properties.Assigned_To) === '"CM"') {
                             useIcon = iconcm[0]
@@ -53,11 +40,7 @@ function initialize() {
                         }
                         var coords = data.features[i].geometry.coordinates;
                         var myLatlng = new google.maps.LatLng(coords[1], coords[0]);
-                        var marker = new google.maps.Marker({
-                            position: myLatlng,
-                            map: map,
-                            icon: useIcon,
-                        });
+                        var marker = new google.maps.Marker({position: myLatlng, map: map, icon: useIcon});
                         marker.addListener('click', function() {
                             if (currentinfo) {
                                 currentinfo.close();
@@ -67,23 +50,10 @@ function initialize() {
                         });
                     } else if (JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"LMTR"' || JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"SRVL"') {
                         var contentString = '<div id="iw-container">' +
-                            '<div class="iw-content">' +
-                            '<div class="iw-subTitle">Location</div>' +
-                            data.features[i].properties.LOCAT_DESC +
-                            '<div class="iw-subTitle">Object id</div>' +
-                            data.features[i].properties.OBJECTID +
-                            '</div>' +
-                            '<div class="iw-subTitle">Code</div>' +
-                            data.features[i].properties.CODE +
-                            '</div>' +
-                            '<div class="iw-bottom-gradient"></div>' +
-                            '<button type="buttton" onclick="myFunction( \'' + name[0] + '\' )">Open Maps</button>' +
-                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\', \'' + data.features[i].properties.Assigned_To + '\')">Dispatch</button>' +
-                            '</div>';
+                        '<div class="iw-content">' +
+                        '<div class="iw-subTitle">Location</div>' + data.features[i].properties.LOCAT_DESC + '<div class="iw-subTitle">Object id</div>' + data.features[i].properties.OBJECTID + '</div>' + '<div class="iw-subTitle">Code</div>' + data.features[i].properties.CODE + '</div>' + '<div class="iw-bottom-gradient"></div>' + '<button type="buttton" onclick="myFunction( \'' + name[0] + '\' )">Open Maps</button>' + '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\', \'' + data.features[i].properties.Assigned_To + '\')">Dispatch</button>' + '</div>';
 
-                        var infowindow = new google.maps.InfoWindow({
-                            content: contentString
-                        });
+                        var infowindow = new google.maps.InfoWindow({content: contentString});
                         var useIcon;
                         if (JSON.stringify(data.features[i].properties.Assigned_To) === '"CM"') {
                             useIcon = iconcm[1]
@@ -100,11 +70,7 @@ function initialize() {
                         }
                         var coords = data.features[i].geometry.coordinates;
                         var myLatlng = new google.maps.LatLng(coords[1], coords[0]);
-                        var marker = new google.maps.Marker({
-                            position: myLatlng,
-                            map: map,
-                            icon: useIcon,
-                        });
+                        var marker = new google.maps.Marker({position: myLatlng, map: map, icon: useIcon});
                         marker.addListener('click', function() {
                             if (currentinfo) {
                                 currentinfo.close();
@@ -114,23 +80,10 @@ function initialize() {
                         });
                     } else if (JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"CUSL"' || JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"OTHER"' || JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"HYDR"') {
                         var contentString = '<div id="iw-container">' +
-                            '<div class="iw-content">' +
-                            '<div class="iw-subTitle">Location</div>' +
-                            data.features[i].properties.LOCAT_DESC +
-                            '<div class="iw-subTitle">Object id</div>' +
-                            data.features[i].properties.OBJECTID +
-                            '</div>' +
-                            '<div class="iw-subTitle">Code</div>' +
-                            data.features[i].properties.CODE +
-                            '</div>' +
-                            '<div class="iw-bottom-gradient"></div>' +
-                            '<button type="buttton" onclick="myFunction( \'' + name[0] + '\' )">Open Maps</button>' +
-                            '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\', \'' + data.features[i].properties.Assigned_To + '\')">Dispatch</button>' +
-                            '</div>';
+                        '<div class="iw-content">' +
+                        '<div class="iw-subTitle">Location</div>' + data.features[i].properties.LOCAT_DESC + '<div class="iw-subTitle">Object id</div>' + data.features[i].properties.OBJECTID + '</div>' + '<div class="iw-subTitle">Code</div>' + data.features[i].properties.CODE + '</div>' + '<div class="iw-bottom-gradient"></div>' + '<button type="buttton" onclick="myFunction( \'' + name[0] + '\' )">Open Maps</button>' + '<button type="buttton" onclick="dispatch( \'' + data.features[i].properties.OBJECTID + '\' , \'' + data.features[i].properties.CODE + '\' , \'' + data.features[i].properties.LOCAT_DESC + '\', \'' + data.features[i].properties.Assigned_To + '\')">Dispatch</button>' + '</div>';
 
-                        var infowindow = new google.maps.InfoWindow({
-                            content: contentString
-                        });
+                        var infowindow = new google.maps.InfoWindow({content: contentString});
                         var useIcon;
                         if (JSON.stringify(data.features[i].properties.Assigned_To) === '"CM"') {
                             useIcon = iconcm[2]
@@ -147,11 +100,7 @@ function initialize() {
                         }
                         var coords = data.features[i].geometry.coordinates;
                         var myLatlng = new google.maps.LatLng(coords[1], coords[0]);
-                        var marker = new google.maps.Marker({
-                            position: myLatlng,
-                            map: map,
-                            icon: useIcon,
-                        });
+                        var marker = new google.maps.Marker({position: myLatlng, map: map, icon: useIcon});
                         marker.addListener('click', function() {
                             if (currentinfo) {
                                 currentinfo.close();
@@ -165,24 +114,23 @@ function initialize() {
         });
     });
 }
-function dispatch(object,code,address,user) {
-  var userid;
-  if (user == "CM") {
-    userid = 133040042
-  } else if (user == "RR") {
-    userid = 133042082
-  } else if (user == "FS") {
-    userid = 132984131
-  } else if (user == "MB") {
-    userid = 133040041
-  } else if (user == "DW") {
-    userid = 133040038
-  } else if (user == "TW") {
-    // userid = 133042079
-    userid = 132951107
-  }
-  new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
-  // new Image().src = "http://localhost:3000/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
+function dispatch(object, code, address, user) {
+    var userid;
+    if (user == "CM") {
+        userid = 133040042
+    } else if (user == "RR") {
+        userid = 133042082
+    } else if (user == "FS") {
+        userid = 132984131
+    } else if (user == "MB") {
+        userid = 133040041
+    } else if (user == "DW") {
+        userid = 133040038
+    } else if (user == "TW") {
+        userid = 133042079
+    }
+    // new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
+    new Image().src = "http://localhost:3000/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
 }
 
 function myFunction(address) {
