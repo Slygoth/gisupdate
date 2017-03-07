@@ -129,8 +129,8 @@ function dispatch(object, code, address, user) {
     } else if (user == "TW") {
         userid = 133042079
     }
-    // new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
-    new Image().src = "http://localhost:3000/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
+    new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
+    // new Image().src = "http://localhost:3000/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
 }
 
 function myFunction(address) {
