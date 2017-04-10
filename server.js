@@ -53,7 +53,7 @@ app.get('/pronto', function(req, res) {
 app.get('/download', function(req, res) {
     var minutes = 1,
         the_interval = minutes * 10000;
-    setInterval(function() {
+    // setInterval(function() {
         console.log("I am doing my 5 minutes check");
         var fs = require('fs');
         var path = require('path');
@@ -154,7 +154,8 @@ app.get('/download', function(req, res) {
             var service = google.drive('v3');
             service.files.list({
                 auth: auth,
-                pageSize: 900,
+                pageSize: 1000,
+                q: "mimeType='application/json'",
                 fields: "nextPageToken, files(id, name)"
             }, function(err, response) {
                 if (err) {
@@ -178,7 +179,7 @@ app.get('/download', function(req, res) {
         setTimeout(function(req, res) {
             finish(filearray);
         }, 2000);
-    }, the_interval);
+    // }, the_interval);
 });
 
 //Parsing pronto data
@@ -223,14 +224,16 @@ function finish(filearray) {
             }
             jsonGis.push('"PIPE_DIAM"');
             if (obj.pages[5].answers[4].values[0] != undefined) {
-                // jsonGis.push('"' + obj.pages[5].answers[4].values[0] + '"');
-                jsonGis.push('"' + 222 + '"');
-            } else if (obj.pages[6].answers[3].values[0] != undefined) {
-                // jsonGis.push('"' + obj.pages[6].answers[3].values[0] + '"');
-                jsonGis.push('"' + 222 + '"');
+                jsonGis.push('"' + 0 + '"');
+                // jsonGis.push('"' + obj.pages[5].answers[5].values[0] + '"');
+            } else if (obj.pages[6].answers[4].values[0] != undefined) {
+                jsonGis.push('"' + 0 + '"');
+                // jsonGis.push('"' + obj.pages[6].answers[5].values[0] + '"');
+            } else if (obj.pages[37].answers[6].values[0] != undefined){
+                jsonGis.push('"' + 0 + '"');
+                // jsonGis.push('"' + obj.pages[37].answers[7].values[0] + '"');
             } else {
-                // jsonGis.push('"' + obj.pages[37].answers[6].values[0] + '"');
-                jsonGis.push('"' + 222 + '"');
+              jsonGis.push('"' + 0 + '"')
             }
             jsonGis.push('"PIPE_MATERIAL"');
             if (obj.pages[5].answers[3].values[0] != undefined) {
@@ -247,31 +250,35 @@ function finish(filearray) {
             jsonGis.push('"CODE"');
             jsonGis.push('""');
             jsonGis.push('"geometry":{');
-            jsonGis.push('"x":' + obj.pages[1].answers[4].values[0].coordinates.longitude + ',');
-            jsonGis.push('"y":' + obj.pages[1].answers[4].values[0].coordinates.latitude);
+            jsonGis.push('"x":' + -76.566682 + ',');
+            // jsonGis.push('"x":' + obj.pages[1].answers[4].values[0].coordinates.longitude + ',');
+            jsonGis.push('"y":' + 17.645106);
+            // jsonGis.push('"y":' + obj.pages[1].answers[4].values[0].coordinates.latitude);
             jsonGis.push(',"spatialReference":{"wkid":4326}');
-            var str = "[{ " + jsonGis[0] + jsonGis[1] + jsonGis[2] + ": " + jsonGis[3] + "," + jsonGis[4] + ": " + jsonGis[5] + "," + jsonGis[6] + ": " + jsonGis[7] + "," + jsonGis[8] + ": " + jsonGis[9] + "," + jsonGis[10] + ": " + jsonGis[11] + "," + jsonGis[12] + ": " + jsonGis[13] + " }," + jsonGis[14] + " " + jsonGis[15] + " " + jsonGis[16] + " "+ jsonGis[17] + "}}]";
+            var str = "[{ " + jsonGis[0] + jsonGis[1] + jsonGis[2] + ": " + jsonGis[3] + "," + jsonGis[4] + ": " + jsonGis[5] + "," + jsonGis[6] + ": " + jsonGis[7] + "," + jsonGis[8] + ": " + jsonGis[9] + "," + jsonGis[10] + ": " + jsonGis[11] + "," + jsonGis[12] + ": " + jsonGis[13] + " }," + jsonGis[14] + " " + jsonGis[15] + " " + jsonGis[16] + " " + jsonGis[17] + "}}]";
             console.log(str);
             addfeature(str);
+            // gisupdate(str);
         })
     })
 }
 //Updating GIS
 function gisupdate(str) {
-    var qs = require("querystring");
-    var http = require("http");
-    var options = {
-        "method": "POST",
-        "hostname": "services6.arcgis.com",
-        "port": null,
-        "path": "/3R3y1KXaPJ9BFnsU/arcgis/rest/services/ProntoFormsTest/FeatureServer/0/updateFeatures",
-        "headers": {
-            "accept": "application/json",
-            "content-type": "application/x-www-form-urlencoded",
-            "cache-control": "no-cache",
-            "postman-token": "dc3ea736-e6b7-3f10-c1b9-cbc6e1a783c2"
-        }
+  var qs = require("querystring");
+  var http = require("http");
+
+  var options = {
+    "method": "POST",
+    "hostname": "services6.arcgis.com",
+    "port": null,
+    "path": "/3R3y1KXaPJ9BFnsU/arcgis/rest/services/ProntoFormsTest/FeatureServer/0/updateFeatures",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/x-www-form-urlencoded",
+      "cache-control": "no-cache",
+      "postman-token": "d3024cf9-9591-7dfb-9958-88d3ab649eed"
     }
+  }
     var req = http.request(options, function(res) {
         var chunks = [];
 
@@ -284,27 +291,27 @@ function gisupdate(str) {
             console.log(body.toString());
         });
     });
-    req.write(qs.stringify({features: str, token: '7QePIDkYHis2gi1epuX14dX8mbQAimEzWxFSukrZFASO97nmLeiAD2IQ7jEJzUPX5kJ2PANPjyB5Bf7U45pIXXWLXgShsHw5vB0qSjpMza9As_RXMOiA2CK8RFvsEoF1e6LmQajIqPTWsOtAkTWCAs-kmqSneXCYWxwHaVxRoAQSd_ZQmAe60ML0Uj2st_qSy5xCfrciPE12yq78zaGHUkV5BSxsFVulBGVH_pKQqW8', f: 'json'}));
+    req.write(qs.stringify({features: str, token: 'tvm24BlMh-9M1WmEYZQOnJbOZTvwQfd5oZtaicuLPMNyF2dPPbvF1QrUraWrfUhZVu_IIIfeRV0y8ubrj5Rn9yvxSaYPay5jK6rB1kUDedhCzwaRFx8fjXNjlnSI8my9pHJGg-xAtXQIA8nTl8VgiipBhgdHcbwNUhfcb3gc7m_UsKWjQ1WjHgLTbydgzI4pkbSQGS0X6sxpALzl7pO6uOyXKYAGldOxdAbMDCK2XlQ', f: 'json'}));
     // res.send("The GIS was updated");
     req.end();
 }
 //adding feature GIS
 function addfeature(str) {
-    var qs = require("querystring");
-    var http = require("http");
+  var qs = require("querystring");
+  var http = require("http");
 
-    var options = {
-        "method": "POST",
-        "hostname": "services6.arcgis.com",
-        "port": null,
-        "path": "/3R3y1KXaPJ9BFnsU/arcgis/rest/services/ProntoFormsTest/FeatureServer/0/addFeatures",
-        "headers": {
-            "accept": "application/json",
-            "content-type": "application/x-www-form-urlencoded",
-            "cache-control": "no-cache",
-            "postman-token": "b80b9fef-25d9-1ce3-c5b5-44b99c5dbca0"
-        }
-    };
+  var options = {
+    "method": "POST",
+    "hostname": "services6.arcgis.com",
+    "port": null,
+    "path": "/3R3y1KXaPJ9BFnsU/arcgis/rest/services/ProntoFormsTest/FeatureServer/0/addFeatures",
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/x-www-form-urlencoded",
+      "cache-control": "no-cache",
+      "postman-token": "dfb59ff4-2ca7-d7c1-d547-7c2feee042c2"
+    }
+  }
 
     var req = http.request(options, function(res) {
         var chunks = [];
@@ -319,7 +326,7 @@ function addfeature(str) {
         });
     });
 
-    req.write(qs.stringify({features: str, token: '7QePIDkYHis2gi1epuX14dX8mbQAimEzWxFSukrZFASO97nmLeiAD2IQ7jEJzUPX5kJ2PANPjyB5Bf7U45pIXXWLXgShsHw5vB0qSjpMza9As_RXMOiA2CK8RFvsEoF1e6LmQajIqPTWsOtAkTWCAs-kmqSneXCYWxwHaVxRoAQSd_ZQmAe60ML0Uj2st_qSy5xCfrciPE12yq78zaGHUkV5BSxsFVulBGVH_pKQqW8', f: 'json'}));
+    req.write(qs.stringify({features: str, token: 'tvm24BlMh-9M1WmEYZQOnJbOZTvwQfd5oZtaicuLPMNyF2dPPbvF1QrUraWrfUhZVu_IIIfeRV0y8ubrj5Rn9yvxSaYPay5jK6rB1kUDedhCzwaRFx8fjXNjlnSI8my9pHJGg-xAtXQIA8nTl8VgiipBhgdHcbwNUhfcb3gc7m_UsKWjQ1WjHgLTbydgzI4pkbSQGS0X6sxpALzl7pO6uOyXKYAGldOxdAbMDCK2XlQ', f: 'json'}));
     req.end();
 }
 //inventory list
