@@ -276,9 +276,9 @@ function gisupdate(str) {
       "accept": "application/json",
       "content-type": "application/x-www-form-urlencoded",
       "cache-control": "no-cache",
-      "postman-token": "d3024cf9-9591-7dfb-9958-88d3ab649eed"
+      "postman-token": "527c11b9-0097-4c0c-42a5-46fe91a60ff7"
     }
-  }
+  };
     var req = http.request(options, function(res) {
         var chunks = [];
 
@@ -291,7 +291,7 @@ function gisupdate(str) {
             console.log(body.toString());
         });
     });
-    req.write(qs.stringify({features: str, token: 'tvm24BlMh-9M1WmEYZQOnJbOZTvwQfd5oZtaicuLPMNyF2dPPbvF1QrUraWrfUhZVu_IIIfeRV0y8ubrj5Rn9yvxSaYPay5jK6rB1kUDedhCzwaRFx8fjXNjlnSI8my9pHJGg-xAtXQIA8nTl8VgiipBhgdHcbwNUhfcb3gc7m_UsKWjQ1WjHgLTbydgzI4pkbSQGS0X6sxpALzl7pO6uOyXKYAGldOxdAbMDCK2XlQ', f: 'json'}));
+    req.write(qs.stringify({features: str, token: 'O8B5WLB2nABQ9SFQZSEw7OhVPk2il8daNejNOXInCxJbW3769jy6wOtI5zv0x44sTtO3-fK4NGsmZrbS4I0ZJHAHwpHd9Zlp2rOzFG7GkzzaphWQCddQaPNmInBCXHmYXlXqzONBzGphfHKacTLkLiY5d0jLJJBEpnNH2ja3uECF1EQfIAM1nLfqGB45YvhX7xoR4gYU_7vpVUZc0baCfNWKaJgC0EAtPPVtcAsBhaU', f: 'json'}));
     // res.send("The GIS was updated");
     req.end();
 }
@@ -309,9 +309,9 @@ function addfeature(str) {
       "accept": "application/json",
       "content-type": "application/x-www-form-urlencoded",
       "cache-control": "no-cache",
-      "postman-token": "dfb59ff4-2ca7-d7c1-d547-7c2feee042c2"
+      "postman-token": "527c11b9-0097-4c0c-42a5-46fe91a60ff7"
     }
-  }
+  };
 
     var req = http.request(options, function(res) {
         var chunks = [];
@@ -326,7 +326,7 @@ function addfeature(str) {
         });
     });
 
-    req.write(qs.stringify({features: str, token: 'tvm24BlMh-9M1WmEYZQOnJbOZTvwQfd5oZtaicuLPMNyF2dPPbvF1QrUraWrfUhZVu_IIIfeRV0y8ubrj5Rn9yvxSaYPay5jK6rB1kUDedhCzwaRFx8fjXNjlnSI8my9pHJGg-xAtXQIA8nTl8VgiipBhgdHcbwNUhfcb3gc7m_UsKWjQ1WjHgLTbydgzI4pkbSQGS0X6sxpALzl7pO6uOyXKYAGldOxdAbMDCK2XlQ', f: 'json'}));
+    req.write(qs.stringify({features: str, token: 'O8B5WLB2nABQ9SFQZSEw7OhVPk2il8daNejNOXInCxJbW3769jy6wOtI5zv0x44sTtO3-fK4NGsmZrbS4I0ZJHAHwpHd9Zlp2rOzFG7GkzzaphWQCddQaPNmInBCXHmYXlXqzONBzGphfHKacTLkLiY5d0jLJJBEpnNH2ja3uECF1EQfIAM1nLfqGB45YvhX7xoR4gYU_7vpVUZc0baCfNWKaJgC0EAtPPVtcAsBhaU', f: 'json'}));
     req.end();
 }
 //inventory list

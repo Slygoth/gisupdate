@@ -18,7 +18,7 @@ function initialize() {
         $.each(data.features, function(i, value) {
             if (JSON.stringify(data.features[i].properties.LEAK_STATUS) === '"exi"') {
                 if (data.features[i].properties.Assigned_To !== null) {
-                    if (JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"VLVL"' || JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"BPIP"') {
+                    if (JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"VLVL"' || JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"BPIP"' || JSON.stringify(data.features[i].properties.LEAK_LOCATION) === '"BPIM"') {
                         name.push(data.features[i].properties.LOCAT_DESC, i);
                         var contentString = '<div id="iw-container">' +
                         '<div class="iw-content">' +
