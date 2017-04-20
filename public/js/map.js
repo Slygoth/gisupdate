@@ -7,6 +7,7 @@ function initialize() {
     var iconmb = ["icons/mbred.png", "icons/mbyellow.png", "icons/mbblue.png"];
     var iconrr = ["icons/rrred.png", "icons/rryellow.png", "icons/rrblue.png"];
     var icontw = ["icons/twred.png", "icons/twyellow.png", "icons/twblue.png"];
+    var iconst = ["icons/stred.png", "icons/styellow.png", "icons/stblue.png"];
 
     var mapOptions = {
         center: new google.maps.LatLng(18.0234382, -76.7841638),
@@ -37,6 +38,8 @@ function initialize() {
                             useIcon = iconrr[0]
                         } else if (JSON.stringify(data.features[i].properties.Assigned_To) === '"TW"') {
                             useIcon = icontw[0]
+                        } else if (JSON.stringify(data.features[i].properties.Assigned_To) === '"ST') {
+                            useIcon = iconst[0]
                         }
                         var coords = data.features[i].geometry.coordinates;
                         var myLatlng = new google.maps.LatLng(coords[1], coords[0]);
@@ -67,6 +70,8 @@ function initialize() {
                             useIcon = iconrr[1]
                         } else if (JSON.stringify(data.features[i].properties.Assigned_To) === '"TW"') {
                             useIcon = icontw[1]
+                        } else if (JSON.stringify(data.features[i].properties.Assigned_To) === '"ST') {
+                            useIcon = iconst[0]
                         }
                         var coords = data.features[i].geometry.coordinates;
                         var myLatlng = new google.maps.LatLng(coords[1], coords[0]);
@@ -97,6 +102,8 @@ function initialize() {
                             useIcon = iconrr[2]
                         } else if (JSON.stringify(data.features[i].properties.Assigned_To) === '"TW"') {
                             useIcon = icontw[2]
+                        } else if (JSON.stringify(data.features[i].properties.Assigned_To) === '"ST') {
+                            useIcon = iconst[0]
                         }
                         var coords = data.features[i].geometry.coordinates;
                         var myLatlng = new google.maps.LatLng(coords[1], coords[0]);
@@ -128,6 +135,8 @@ function dispatch(object, code, address, user) {
         userid = 133040038
     } else if (user == "TW") {
         userid = 133042079
+    } else if (user == "ST") {
+        userid = 132951107
     }
     new Image().src = "https://gisupdate.herokuapp.com/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
     // new Image().src = "http://localhost:3000/pronto?object=" + object + "&code=" + code + "&address=" + address + "&userid=" + userid;
